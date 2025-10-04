@@ -5,10 +5,11 @@ import 'app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Inicializar formatação de data/hora em português
   await initializeDateFormatting('pt_BR', null);
-  Intl.defaultLocale = 'pt_BR';
-  
+  Intl.defaultLocale =
+      'pt_BR'; // Define o local padrão para português do Brasil
+
   runApp(const CascavelApp());
 }
