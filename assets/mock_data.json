@@ -1,0 +1,35 @@
+{
+  "filters": {
+    "periods": ["2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08"],
+    "cnae": ["01.11-3","47.89-0","62.01-1","86.10-1"],
+    "bairros": ["Centro","Pioneiros","Santa Cruz","Cataratas"]
+  },
+  "kpis": [
+    { "key":"pib", "title":"PIB Municipal (R$ mi)", "value": 19250.4, "delta_mom": 0.6, "delta_yoy": 3.1, "source":"Mock", "last_update":"2025-09-01" },
+    { "key":"empregos", "title":"Empregos Formais", "value": 124550, "delta_mom": 0.3, "delta_yoy": 2.4, "source":"Mock", "last_update":"2025-09-01" },
+    { "key":"empresas", "title":"Empresas Ativas", "value": 18920, "delta_mom": 0.4, "delta_yoy": 4.2, "source":"Mock", "last_update":"2025-09-01" },
+    { "key":"iss", "title":"Arrecadação ISS (R$ mi)", "value": 38.7, "delta_mom": -1.2, "delta_yoy": 5.0, "source":"Mock", "last_update":"2025-09-01" },
+    { "key":"alvaras", "title":"Novos Alvarás", "value": 142, "delta_mom": 3.5, "delta_yoy": 7.2, "source":"Mock", "last_update":"2025-09-01" }
+  ],
+  "series": {
+    "pib": [
+      { "period":"2022", "value": 17540 },
+      { "period":"2023", "value": 18670 },
+      { "period":"2024", "value": 19250 }
+    ],
+    "empregos_mensal": [
+      { "period":"2025-01", "value": 121000 },
+      { "period":"2025-02", "value": 121600 },
+      { "period":"2025-08", "value": 124550 }
+    ],
+    "admissoes_por_cnae": [
+      { "cnae":"62.01-1", "value": 820 },
+      { "cnae":"47.89-0", "value": 1540 },
+      { "cnae":"86.10-1", "value": 980 }
+    ]
+  },
+  "alerts": [
+    { "type":"queda_admissoes", "message":"Admissões no CNAE 47.89-0 caíram 18% vs média 6m", "severity":"high" },
+    { "type":"queda_iss", "message":"ISS caiu 6% m/m", "severity":"medium" }
+  ]
+}
