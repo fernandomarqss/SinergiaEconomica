@@ -24,13 +24,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Cascavel em Números">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" href="Brasão_de_Cascavel.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="Brasão_de_Cascavel.png"/>
+  <link rel="shortcut icon" type="image/png" href="Brasão_de_Cascavel.png"/>
 
   <title>Cascavel em Números</title>
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="web/manifest.json">
 
   <style>
     body {
@@ -51,8 +52,19 @@
     }
     
     .logo {
-      font-size: 48px;
+      width: 80px;
+      height: 80px;
       margin-bottom: 20px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
     
     .loading-text {
@@ -80,7 +92,9 @@
 <body>
   <!-- Loading screen enquanto Flutter carrega -->
   <div id="loading" class="loading">
-    <div class="logo">🏙️</div>
+    <div class="logo">
+      <img src="Brasão_de_Cascavel.png" alt="Brasão de Cascavel" onerror="this.style.display='none'; this.parentElement.innerHTML='🏙️'; this.parentElement.style.fontSize='48px'; this.parentElement.style.width='auto'; this.parentElement.style.height='auto'; this.parentElement.style.padding='0';">
+    </div>
     <div class="loading-text">Cascavel em Números</div>
     <div style="opacity: 0.7;">Carregando dashboard...</div>
     <div class="spinner"></div>
@@ -90,24 +104,73 @@
     O flutter_bootstrap.js é gerado pelo 'flutter build web' 
     Ele carrega automaticamente o main.dart compilado
   -->
-  <script src="flutter_bootstrap.js" async></script>
+  <script src="flutter_bootstrap.js" async onerror="loadFlutterFallback()"></script>
   
   <script>
-    // Esconder loading quando Flutter carregar
-    window.addEventListener('flutter-first-frame', function () {
+    // Função de fallback caso flutter_bootstrap.js falhe
+    function loadFlutterFallback() {
+      // Tentar carregar flutter.js como alternativa
+      const script = document.createElement('script');
+      script.src = 'flutter.js';
+      script.async = true;
+      script.onload = function() {
+        if (window._flutter && window._flutter.loader) {
+          _flutter.loader.loadEntrypoint({
+            serviceWorker: {
+              serviceWorkerVersion: null,
+            },
+            onEntrypointLoaded: function(engineInitializer) {
+              engineInitializer.initializeEngine().then(function(appRunner) {
+                appRunner.runApp();
+                hideLoading();
+              });
+            }
+          });
+        }
+      };
+      script.onerror = function() {
+        // Se também falhar, mostrar mensagem de erro
+        showError();
+      };
+      document.head.appendChild(script);
+    }
+    
+    function hideLoading() {
       const loading = document.getElementById('loading');
       if (loading) {
         loading.style.display = 'none';
       }
-    });
+    }
     
-    // Fallback: esconder loading após 10 segundos
+    function showError() {
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.innerHTML = `
+          <div class="logo">
+            <img src="Brasão_de_Cascavel.png" alt="Brasão de Cascavel" onerror="this.style.display='none'; this.parentElement.innerHTML='⚠️'; this.parentElement.style.fontSize='48px';">
+          </div>
+          <div class="loading-text">Aplicação em Build</div>
+          <div style="opacity: 0.7; margin-bottom: 20px;">
+            A aplicação ainda está sendo compilada.<br>
+            <strong>Aguarde alguns minutos e recarregue a página.</strong>
+          </div>
+          <a href="https://github.com/fernandomarqss/SinergiaEconomica" style="color: white; text-decoration: underline;">
+            Ver repositório no GitHub
+          </a>
+        `;
+      }
+    }
+    
+    // Esconder loading quando Flutter carregar
+    window.addEventListener('flutter-first-frame', hideLoading);
+    
+    // Fallback: se não carregar em 15 segundos, mostrar erro
     setTimeout(() => {
       const loading = document.getElementById('loading');
-      if (loading) {
-        loading.style.display = 'none';
+      if (loading && loading.style.display !== 'none') {
+        showError();
       }
-    }, 10000);
+    }, 15000);
   </script>
 </body>
 </html>
