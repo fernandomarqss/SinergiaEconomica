@@ -8,7 +8,7 @@ void main() async {
 
   // Inicializar formatação de data/hora em português
   await initializeDateFormatting('pt_BR', null);
-  Intl.defaultLocale = 'pt_BR';
+  Intl.defaultLocale = 'pt_BR'; //
 
   runApp(const CascavelApp());
 }
