@@ -155,19 +155,3 @@ Contribuições são bem-vindas! Para contribuir:
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 👥 Equipe
-
-- **Fernando Marques** - [@fernandomarqss](https://github.com/fernandomarqss)
-
-## 📞 Contato
-
-Para dúvidas, sugestões ou parcerias:
-- GitHub: [@fernandomarqss](https://github.com/fernandomarqss)
-- Projeto: [SinergiaEconomica](https://github.com/fernandomarqss/SinergiaEconomica)
-
----
-
-<div align="center">
-  <strong>Desenvolvido com ❤️ para Cascavel/PR</strong>
-</div>
