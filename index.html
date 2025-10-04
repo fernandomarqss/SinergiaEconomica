@@ -154,70 +154,109 @@
     
     // Carregar scripts do Flutter
     function loadFlutterScripts() {
-      // Se estiver em produção, carregar dos arquivos buildados
+      // Se estiver em produção, tentar carregar os arquivos do Flutter
       if (isProduction) {
-        // Carregar flutter.js
-        const flutterScript = document.createElement('script');
-        flutterScript.src = basePath + 'build/web/flutter.js';
-        flutterScript.async = true;
-        flutterScript.onload = () => {
-          // Inicializar Flutter
-          _flutter.loader.loadEntrypoint({
-            serviceWorker: {
-              serviceWorkerVersion: null,
-            },
-            onEntrypointLoaded: function(engineInitializer) {
-              engineInitializer.initializeEngine().then(function(appRunner) {
-                appRunner.runApp();
-                loadFlutterApp();
-              });
+        // Verificar se os arquivos existem
+        fetch(basePath + 'flutter.js')
+          .then(response => {
+            if (response.ok) {
+              // Carregar flutter.js
+              const flutterScript = document.createElement('script');
+              flutterScript.src = basePath + 'flutter.js';
+              flutterScript.async = true;
+              flutterScript.onload = () => {
+                // Inicializar Flutter
+                if (window._flutter && window._flutter.loader) {
+                  _flutter.loader.loadEntrypoint({
+                    serviceWorker: {
+                      serviceWorkerVersion: null,
+                    },
+                    onEntrypointLoaded: function(engineInitializer) {
+                      engineInitializer.initializeEngine().then(function(appRunner) {
+                        appRunner.runApp();
+                        loadFlutterApp();
+                      });
+                    }
+                  });
+                } else {
+                  showError('Flutter não foi carregado corretamente');
+                }
+              };
+              
+              flutterScript.onerror = () => {
+                showError('Erro ao carregar flutter.js');
+              };
+              
+              document.head.appendChild(flutterScript);
+            } else {
+              throw new Error('flutter.js não encontrado');
             }
+          })
+          .catch(error => {
+            showAppNotBuilt();
           });
-        };
-        
-        flutterScript.onerror = () => {
-          // Se falhar ao carregar, mostrar mensagem de erro
-          document.getElementById('loading-screen').innerHTML = `
-            <div class="logo">⚠️</div>
-            <div class="loading-text">Erro ao Carregar</div>
-            <div class="loading-subtitle">
-              A aplicação ainda não foi publicada ou houve um erro.<br>
-              <a href="https://github.com/fernandomarqss/SinergiaEconomica" style="color: #fff; text-decoration: underline;">
-                Visite o repositório no GitHub
-              </a>
-            </div>
-          `;
-        };
-        
-        document.head.appendChild(flutterScript);
       } else {
-        // Para desenvolvimento, redirecionar para localhost:port
-        window.location.href = 'http://localhost:3000';
+        // Para desenvolvimento, mostrar instruções
+        showDevelopmentInstructions();
       }
+    }
+    
+    function showError(message) {
+      document.getElementById('loading-screen').innerHTML = `
+        <div class="logo">⚠️</div>
+        <div class="loading-text">Erro ao Carregar</div>
+        <div class="loading-subtitle">
+          ${message}<br>
+          <a href="https://github.com/fernandomarqss/SinergiaEconomica" style="color: #fff; text-decoration: underline; margin-top: 20px; display: inline-block;">
+            Ver código no GitHub
+          </a>
+        </div>
+      `;
+    }
+    
+    function showAppNotBuilt() {
+      document.getElementById('loading-screen').innerHTML = `
+        <div class="logo">🔧</div>
+        <div class="loading-text">Aplicação em Build</div>
+        <div class="loading-subtitle">
+          A aplicação ainda está sendo compilada pelo GitHub Actions.<br>
+          <strong>Aguarde alguns minutos e recarregue a página.</strong><br><br>
+          <a href="https://github.com/fernandomarqss/SinergiaEconomica/actions" style="color: #fff; text-decoration: underline; margin-top: 10px; display: inline-block;">
+            Ver status do build
+          </a><br>
+          <a href="https://github.com/fernandomarqss/SinergiaEconomica" style="color: #fff; text-decoration: underline; margin-top: 10px; display: inline-block;">
+            Ver código no GitHub
+          </a>
+        </div>
+      `;
+    }
+    
+    function showDevelopmentInstructions() {
+      document.getElementById('loading-screen').innerHTML = `
+        <div class="logo">�</div>
+        <div class="loading-text">Ambiente de Desenvolvimento</div>
+        <div class="loading-subtitle">
+          Para visualizar o projeto, execute:<br>
+          <code style="background: rgba(0,0,0,0.3); padding: 8px 15px; border-radius: 8px; margin: 15px 0; display: inline-block; font-size: 14px;">
+            flutter run -d chrome
+          </code><br>
+          <a href="https://github.com/fernandomarqss/SinergiaEconomica" style="color: #fff; text-decoration: underline; margin-top: 20px; display: inline-block;">
+            Ver código no GitHub
+          </a>
+        </div>
+      `;
     }
     
     // Iniciar carregamento após DOM estar pronto
     document.addEventListener('DOMContentLoaded', loadFlutterScripts);
     
-    // Fallback: se não carregar em 10 segundos, mostrar erro
+    // Fallback: se não carregar em 15 segundos, mostrar que está em build
     setTimeout(() => {
       const loadingScreen = document.getElementById('loading-screen');
       if (!loadingScreen.classList.contains('hidden')) {
-        loadingScreen.innerHTML = `
-          <div class="logo">🔧</div>
-          <div class="loading-text">Aplicação em Desenvolvimento</div>
-          <div class="loading-subtitle">
-            Para visualizar o projeto, execute:<br>
-            <code style="background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 5px; margin: 10px;">
-              flutter run -d chrome
-            </code><br>
-            <a href="https://github.com/fernandomarqss/SinergiaEconomica" style="color: #fff; text-decoration: underline; margin-top: 20px; display: inline-block;">
-              Ver código no GitHub
-            </a>
-          </div>
-        `;
+        showAppNotBuilt();
       }
-    }, 10000);
+    }, 15000);
   </script>
 </body>
 </html>
