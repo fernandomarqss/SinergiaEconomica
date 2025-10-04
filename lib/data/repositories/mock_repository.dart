@@ -108,11 +108,48 @@ class MockRepository {
     return alerts.where((alert) => alert.severidade == severidade).toList();
   }
 
-  // Com filtros
+  // KPIs com filtros
   Future<List<Kpi>> obterKpisComFiltros(AppFilters filtros) async {
-    // Sem fonte real, mantemos KPIs como estão.
-    final all = await obterKpis();
-    return all;
+    final data = await _loadMockData();
+
+    // Se não há filtros específicos, retorna KPIs gerais
+    if (filtros.cnaeSelecionado == null && filtros.bairroSelecionado == null) {
+      final kpisData = data['kpis'] as List<dynamic>;
+      return kpisData
+          .map((kpiJson) => Kpi.fromJson(kpiJson as Map<String, dynamic>))
+          .toList();
+    }
+
+    // Se há filtro CNAE, retorna KPIs específicos do CNAE
+    if (filtros.cnaeSelecionado != null) {
+      final kpisPorCnae = data['kpis_por_cnae'] as Map<String, dynamic>?;
+      if (kpisPorCnae != null &&
+          kpisPorCnae.containsKey(filtros.cnaeSelecionado)) {
+        final kpisData = kpisPorCnae[filtros.cnaeSelecionado] as List<dynamic>;
+        return kpisData
+            .map((kpiJson) => Kpi.fromJson(kpiJson as Map<String, dynamic>))
+            .toList();
+      }
+    }
+
+    // Se há filtro Bairro, retorna KPIs específicos do bairro
+    if (filtros.bairroSelecionado != null) {
+      final kpisPorBairro = data['kpis_por_bairro'] as Map<String, dynamic>?;
+      if (kpisPorBairro != null &&
+          kpisPorBairro.containsKey(filtros.bairroSelecionado)) {
+        final kpisData =
+            kpisPorBairro[filtros.bairroSelecionado] as List<dynamic>;
+        return kpisData
+            .map((kpiJson) => Kpi.fromJson(kpiJson as Map<String, dynamic>))
+            .toList();
+      }
+    }
+
+    // Fallback para KPIs gerais
+    final kpisData = data['kpis'] as List<dynamic>;
+    return kpisData
+        .map((kpiJson) => Kpi.fromJson(kpiJson as Map<String, dynamic>))
+        .toList();
   }
 
   Future<SeriesData> obterSeriesComFiltros(AppFilters filtros) async {
@@ -135,6 +172,12 @@ class MockRepository {
       }
     }
 
+    if (inicio != null && fim != null && inicio.isAfter(fim)) {
+      final temp = inicio;
+      inicio = fim;
+      fim = temp;
+    }
+
     List<TimePoint> filtrarSerieMensal(List<TimePoint> serie) {
       if (inicio == null && fim == null) return serie;
       return serie.where((p) {
@@ -142,35 +185,23 @@ class MockRepository {
         if (d == null) return true;
         final afterStart = (inicio == null)
             ? true
-            : !d.isBefore(DateTime(inicio!.year, inicio!.month, inicio!.day));
+            : !d.isBefore(DateTime(inicio.year, inicio.month, inicio.day));
         final beforeEnd = (fim == null)
             ? true
-            : !d.isAfter(DateTime(fim!.year, fim!.month, fim!.day));
-        return afterStart && beforeEnd;
-      }).toList();
-    }
-
-    List<TimePoint> filtrarSerieAnual(List<TimePoint> serie) {
-      if (inicio == null && fim == null) return serie;
-      return serie.where((p) {
-        final d = _parsePeriodoAnual(p.periodo);
-        if (d == null) return true;
-        final afterStart =
-            (inicio == null) ? true : !d.isBefore(DateTime(inicio!.year, 1, 1));
-        final beforeEnd =
-            (fim == null) ? true : !d.isAfter(DateTime(fim!.year, 12, 31));
+            : !d.isAfter(DateTime(fim.year, fim.month, fim.day));
         return afterStart && beforeEnd;
       }).toList();
     }
 
     final empregosFiltrado = filtrarSerieMensal(base.empregosMensal);
-    final pibFiltrado = filtrarSerieAnual(base.pib);
+    final pibFiltrado = base.pib;
 
-    final cnaeFiltrado = (filtros.cnaeSelecionado == null)
-        ? base.admissoesPorCnae
-        : base.admissoesPorCnae
-            .where((e) => e.cnae == filtros.cnaeSelecionado)
-            .toList();
+    final cnaeFiltrado = _obterTopCnaes(
+      base.admissoesPorCnae,
+      filtros,
+      inicio,
+      fim,
+    );
 
     return SeriesData(
       pib: pibFiltrado,
@@ -180,8 +211,40 @@ class MockRepository {
   }
 
   Future<List<Alert>> obterAlertasComFiltros(AppFilters filtros) async {
-    // Sem metadados de data/bairro nos alertas mockados, retornamos todos
-    return obterAlertas();
+    final data = await _loadMockData();
+    final alertsData = data['alerts'] as List<dynamic>;
+    final allAlerts = alertsData
+        .map((alertJson) => Alert.fromJson(alertJson as Map<String, dynamic>))
+        .toList();
+
+    // Filtrar alertas por CNAE ou bairro se especificados
+    return allAlerts.where((alert) {
+      // Se há filtro CNAE, só mostra alertas relacionados ao CNAE
+      if (filtros.cnaeSelecionado != null) {
+        final alertData = alertsData.firstWhere(
+          (a) => a['message'] == alert.mensagem,
+          orElse: () => <String, dynamic>{},
+        );
+        final alertCnae = alertData['cnae'] as String?;
+        if (alertCnae != null && alertCnae != filtros.cnaeSelecionado) {
+          return false;
+        }
+      }
+
+      // Se há filtro Bairro, só mostra alertas relacionados ao bairro
+      if (filtros.bairroSelecionado != null) {
+        final alertData = alertsData.firstWhere(
+          (a) => a['message'] == alert.mensagem,
+          orElse: () => <String, dynamic>{},
+        );
+        final alertBairro = alertData['bairro'] as String?;
+        if (alertBairro != null && alertBairro != filtros.bairroSelecionado) {
+          return false;
+        }
+      }
+
+      return true;
+    }).toList();
   }
 
   void limparCache() {
@@ -227,15 +290,102 @@ class MockRepository {
     return null;
   }
 
-  DateTime? _parsePeriodoAnual(String period) {
-    try {
-      if (period.length == 4) {
-        final y = int.parse(period);
-        return DateTime(y, 1, 1);
+  List<CnaeData> _obterTopCnaes(
+    List<CnaeData> dados,
+    AppFilters filtros,
+    DateTime? inicio,
+    DateTime? fim, {
+    int limite = 10,
+  }) {
+    DateTime? start = inicio;
+    DateTime? end = fim;
+
+    if (start != null && end != null && start.isAfter(end)) {
+      final temp = start;
+      start = end;
+      end = temp;
+    }
+
+    if (start != null && end == null) {
+      end = _endOfMonth(start);
+    } else if (start == null && end != null) {
+      start = _startOfMonth(end);
+    }
+
+    if (start == null && end == null) {
+      final periods = dados
+          .map((e) => e.periodo)
+          .whereType<String>()
+          .map(_parsePeriodoMensal)
+          .whereType<DateTime>()
+          .toList();
+      if (periods.isNotEmpty) {
+        periods.sort();
+        final latest = periods.last;
+        start = DateTime(latest.year, 1, 1);
+        end = DateTime(latest.year, 12, 31);
       }
-    } catch (_) {}
-    return null;
+    }
+
+    final normalizedStart = start != null ? _startOfMonth(start) : null;
+    final normalizedEnd = end != null ? _endOfMonth(end) : null;
+
+    final filtered = dados.where((item) {
+      if (filtros.cnaeSelecionado != null &&
+          item.cnae != filtros.cnaeSelecionado) {
+        return false;
+      }
+      if (filtros.bairroSelecionado != null &&
+          item.bairro != filtros.bairroSelecionado) {
+        return false;
+      }
+
+      if (item.periodo != null) {
+        final date = _parsePeriodoMensal(item.periodo!);
+        if (normalizedStart != null &&
+            date != null &&
+            date.isBefore(normalizedStart)) {
+          return false;
+        }
+        if (normalizedEnd != null &&
+            date != null &&
+            date.isAfter(normalizedEnd)) {
+          return false;
+        }
+      }
+
+      return true;
+    }).toList();
+
+    if (filtered.isEmpty) {
+      return [];
+    }
+
+    final Map<String, double> acumuladoPorCnae = {};
+    for (final item in filtered) {
+      acumuladoPorCnae[item.cnae] =
+          (acumuladoPorCnae[item.cnae] ?? 0) + item.valor;
+    }
+
+    final ordenado = acumuladoPorCnae.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+
+    return ordenado.take(limite).map((entry) {
+      return CnaeData(
+        cnae: entry.key,
+        valor: entry.value,
+        periodo: normalizedStart != null &&
+                normalizedEnd != null &&
+                normalizedStart.year == normalizedEnd.year
+            ? normalizedStart.year.toString()
+            : null,
+      );
+    }).toList();
   }
+
+  DateTime _startOfMonth(DateTime date) => DateTime(date.year, date.month, 1);
+
+  DateTime _endOfMonth(DateTime date) => DateTime(date.year, date.month + 1, 0);
 }
 
 // DTO agregado do dashboard

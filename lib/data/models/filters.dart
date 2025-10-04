@@ -38,6 +38,8 @@ class AppFilters {
   final DateTime? dataInicial;
   final DateTime? dataFinal;
 
+  static const Object _undefined = Object();
+
   const AppFilters({
     this.periodoSelecionado,
     this.cnaeSelecionado,
@@ -47,18 +49,28 @@ class AppFilters {
   });
 
   AppFilters copyWith({
-    String? periodoSelecionado,
-    String? cnaeSelecionado,
-    String? bairroSelecionado,
-    DateTime? dataInicial,
-    DateTime? dataFinal,
+    Object? periodoSelecionado = _undefined,
+    Object? cnaeSelecionado = _undefined,
+    Object? bairroSelecionado = _undefined,
+    Object? dataInicial = _undefined,
+    Object? dataFinal = _undefined,
   }) {
     return AppFilters(
-      periodoSelecionado: periodoSelecionado ?? this.periodoSelecionado,
-      cnaeSelecionado: cnaeSelecionado ?? this.cnaeSelecionado,
-      bairroSelecionado: bairroSelecionado ?? this.bairroSelecionado,
-      dataInicial: dataInicial ?? this.dataInicial,
-      dataFinal: dataFinal ?? this.dataFinal,
+      periodoSelecionado: identical(periodoSelecionado, _undefined)
+          ? this.periodoSelecionado
+          : periodoSelecionado as String?,
+      cnaeSelecionado: identical(cnaeSelecionado, _undefined)
+          ? this.cnaeSelecionado
+          : cnaeSelecionado as String?,
+      bairroSelecionado: identical(bairroSelecionado, _undefined)
+          ? this.bairroSelecionado
+          : bairroSelecionado as String?,
+      dataInicial: identical(dataInicial, _undefined)
+          ? this.dataInicial
+          : dataInicial as DateTime?,
+      dataFinal: identical(dataFinal, _undefined)
+          ? this.dataFinal
+          : dataFinal as DateTime?,
     );
   }
 
@@ -79,6 +91,6 @@ class AppFilters {
   }
 
   @override
-  int get hashCode => Object.hash(
-      periodoSelecionado, cnaeSelecionado, bairroSelecionado, dataInicial, dataFinal);
+  int get hashCode => Object.hash(periodoSelecionado, cnaeSelecionado,
+      bairroSelecionado, dataInicial, dataFinal);
 }

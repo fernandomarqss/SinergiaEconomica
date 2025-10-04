@@ -1,35 +1,1012 @@
-{
-  "filters": {
-    "periods": ["2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08"],
-    "cnae": ["01.11-3","47.89-0","62.01-1","86.10-1"],
-    "bairros": ["Centro","Pioneiros","Santa Cruz","Cataratas"]
-  },
-  "kpis": [
-    { "key":"pib", "title":"PIB Municipal (R$ mi)", "value": 19250.4, "delta_mom": 0.6, "delta_yoy": 3.1, "source":"Mock", "last_update":"2025-09-01" },
-    { "key":"empregos", "title":"Empregos Formais", "value": 124550, "delta_mom": 0.3, "delta_yoy": 2.4, "source":"Mock", "last_update":"2025-09-01" },
-    { "key":"empresas", "title":"Empresas Ativas", "value": 18920, "delta_mom": 0.4, "delta_yoy": 4.2, "source":"Mock", "last_update":"2025-09-01" },
-    { "key":"iss", "title":"Arrecadação ISS (R$ mi)", "value": 38.7, "delta_mom": -1.2, "delta_yoy": 5.0, "source":"Mock", "last_update":"2025-09-01" },
-    { "key":"alvaras", "title":"Novos Alvarás", "value": 142, "delta_mom": 3.5, "delta_yoy": 7.2, "source":"Mock", "last_update":"2025-09-01" }
-  ],
-  "series": {
-    "pib": [
-      { "period":"2022", "value": 17540 },
-      { "period":"2023", "value": 18670 },
-      { "period":"2024", "value": 19250 }
-    ],
-    "empregos_mensal": [
-      { "period":"2025-01", "value": 121000 },
-      { "period":"2025-02", "value": 121600 },
-      { "period":"2025-08", "value": 124550 }
-    ],
-    "admissoes_por_cnae": [
-      { "cnae":"62.01-1", "value": 820 },
-      { "cnae":"47.89-0", "value": 1540 },
-      { "cnae":"86.10-1", "value": 980 }
-    ]
-  },
-  "alerts": [
-    { "type":"queda_admissoes", "message":"Admissões no CNAE 47.89-0 caíram 18% vs média 6m", "severity":"high" },
-    { "type":"queda_iss", "message":"ISS caiu 6% m/m", "severity":"medium" }
-  ]
+﻿{
+    "filters":  {
+                    "periods":  [
+                                    "2022-01",
+                                    "2022-02",
+                                    "2022-03",
+                                    "2022-04",
+                                    "2022-05",
+                                    "2022-06",
+                                    "2022-07",
+                                    "2022-08",
+                                    "2022-09",
+                                    "2022-10",
+                                    "2022-11",
+                                    "2022-12",
+                                    "2023-01",
+                                    "2023-02",
+                                    "2023-03",
+                                    "2023-04",
+                                    "2023-05",
+                                    "2023-06",
+                                    "2023-07",
+                                    "2023-08",
+                                    "2023-09",
+                                    "2023-10",
+                                    "2023-11",
+                                    "2023-12",
+                                    "2024-01",
+                                    "2024-02",
+                                    "2024-03",
+                                    "2024-04",
+                                    "2024-05",
+                                    "2024-06",
+                                    "2024-07",
+                                    "2024-08",
+                                    "2024-09",
+                                    "2024-10",
+                                    "2024-11",
+                                    "2024-12"
+                                ],
+                    "cnae":  [
+                                 "01.11-3",
+                                 "10.12-1",
+                                 "47.89-0",
+                                 "62.01-1",
+                                 "86.10-1"
+                             ],
+                    "bairros":  [
+                                    "Alto Alegre",
+                                    "Brasília",
+                                    "Brazmadeira",
+                                    "Canadá",
+                                    "Cancelli",
+                                    "Cascavel Velho",
+                                    "Cataratas",
+                                    "Centro",
+                                    "Coqueiral",
+                                    "Country",
+                                    "Esmeralda",
+                                    "Floresta",
+                                    "Interlagos",
+                                    "Maria Luiza",
+                                    "Morumbi",
+                                    "Neva",
+                                    "Pacaembu",
+                                    "Parque São Paulo",
+                                    "Parque Verde",
+                                    "Periolo",
+                                    "Pioneiros Catarinenses",
+                                    "Recanto Tropical",
+                                    "Região do Lago",
+                                    "Santa Cruz",
+                                    "Santa Felicidade",
+                                    "Santo Onofre",
+                                    "Santos Dumont",
+                                    "São Cristóvão",
+                                    "Universitário",
+                                    "XIV de Novembro"
+                                ]
+                },
+    "kpis":  [
+                 {
+                     "key":  "pib",
+                     "title":  "PIB Municipal (R$ mi)",
+                     "value":  19250.4,
+                     "delta_mom":  0.5,
+                     "delta_yoy":  3.2,
+                     "source":  "Mock IBGE",
+                     "last_update":  "2024-12-31"
+                 },
+                 {
+                     "key":  "empregos",
+                     "title":  "Empregos Formais",
+                     "value":  130500,
+                     "delta_mom":  0.2,
+                     "delta_yoy":  2.8,
+                     "source":  "Mock CAGED",
+                     "last_update":  "2024-12-31"
+                 },
+                 {
+                     "key":  "empresas",
+                     "title":  "Empresas Ativas",
+                     "value":  20150,
+                     "delta_mom":  0.3,
+                     "delta_yoy":  4.5,
+                     "source":  "Mock JUCIS",
+                     "last_update":  "2024-12-31"
+                 },
+                 {
+                     "key":  "iss",
+                     "title":  "Arrecadação ISS (R$ mi)",
+                     "value":  42.5,
+                     "delta_mom":  -1.0,
+                     "delta_yoy":  5.5,
+                     "source":  "Mock Pref.",
+                     "last_update":  "2024-12-31"
+                 },
+                 {
+                     "key":  "alvaras",
+                     "title":  "Novos Alvarás",
+                     "value":  155,
+                     "delta_mom":  2.0,
+                     "delta_yoy":  8.0,
+                     "source":  "Mock Pref.",
+                     "last_update":  "2024-12-31"
+                 }
+             ],
+    "kpis_por_cnae":  {
+                          "01.11-3":  [
+                                          {
+                                              "key":  "empregos",
+                                              "title":  "Empregos Formais",
+                                              "value":  8500,
+                                              "delta_mom":  -0.5,
+                                              "delta_yoy":  1.2,
+                                              "source":  "Mock CAGED",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "empresas",
+                                              "title":  "Empresas Ativas",
+                                              "value":  1200,
+                                              "delta_mom":  0.1,
+                                              "delta_yoy":  2.1,
+                                              "source":  "Mock JUCIS",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "alvaras",
+                                              "title":  "Novos Alvarás",
+                                              "value":  8,
+                                              "delta_mom":  -1.0,
+                                              "delta_yoy":  5.0,
+                                              "source":  "Mock Pref.",
+                                              "last_update":  "2024-12-31"
+                                          }
+                                      ],
+                          "10.12-1":  [
+                                          {
+                                              "key":  "empregos",
+                                              "title":  "Empregos Formais",
+                                              "value":  25000,
+                                              "delta_mom":  0.8,
+                                              "delta_yoy":  4.2,
+                                              "source":  "Mock CAGED",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "empresas",
+                                              "title":  "Empresas Ativas",
+                                              "value":  800,
+                                              "delta_mom":  0.5,
+                                              "delta_yoy":  6.0,
+                                              "source":  "Mock JUCIS",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "alvaras",
+                                              "title":  "Novos Alvarás",
+                                              "value":  12,
+                                              "delta_mom":  4.0,
+                                              "delta_yoy":  15.0,
+                                              "source":  "Mock Pref.",
+                                              "last_update":  "2024-12-31"
+                                          }
+                                      ],
+                          "47.89-0":  [
+                                          {
+                                              "key":  "empregos",
+                                              "title":  "Empregos Formais",
+                                              "value":  42000,
+                                              "delta_mom":  0.3,
+                                              "delta_yoy":  3.5,
+                                              "source":  "Mock CAGED",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "empresas",
+                                              "title":  "Empresas Ativas",
+                                              "value":  8500,
+                                              "delta_mom":  0.2,
+                                              "delta_yoy":  4.8,
+                                              "source":  "Mock JUCIS",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "iss",
+                                              "title":  "Arrecadação ISS (R$ mi)",
+                                              "value":  18.2,
+                                              "delta_mom":  -0.8,
+                                              "delta_yoy":  4.2,
+                                              "source":  "Mock Pref.",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "alvaras",
+                                              "title":  "Novos Alvarás",
+                                              "value":  65,
+                                              "delta_mom":  3.0,
+                                              "delta_yoy":  9.0,
+                                              "source":  "Mock Pref.",
+                                              "last_update":  "2024-12-31"
+                                          }
+                                      ],
+                          "62.01-1":  [
+                                          {
+                                              "key":  "empregos",
+                                              "title":  "Empregos Formais",
+                                              "value":  32000,
+                                              "delta_mom":  0.1,
+                                              "delta_yoy":  2.8,
+                                              "source":  "Mock CAGED",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "empresas",
+                                              "title":  "Empresas Ativas",
+                                              "value":  2800,
+                                              "delta_mom":  0.4,
+                                              "delta_yoy":  5.2,
+                                              "source":  "Mock JUCIS",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "iss",
+                                              "title":  "Arrecadação ISS (R$ mi)",
+                                              "value":  12.8,
+                                              "delta_mom":  -1.5,
+                                              "delta_yoy":  6.8,
+                                              "source":  "Mock Pref.",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "alvaras",
+                                              "title":  "Novos Alvarás",
+                                              "value":  28,
+                                              "delta_mom":  1.5,
+                                              "delta_yoy":  6.5,
+                                              "source":  "Mock Pref.",
+                                              "last_update":  "2024-12-31"
+                                          }
+                                      ],
+                          "86.10-1":  [
+                                          {
+                                              "key":  "empregos",
+                                              "title":  "Empregos Formais",
+                                              "value":  23000,
+                                              "delta_mom":  0.4,
+                                              "delta_yoy":  1.8,
+                                              "source":  "Mock CAGED",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "empresas",
+                                              "title":  "Empresas Ativas",
+                                              "value":  6850,
+                                              "delta_mom":  0.3,
+                                              "delta_yoy":  3.2,
+                                              "source":  "Mock JUCIS",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "iss",
+                                              "title":  "Arrecadação ISS (R$ mi)",
+                                              "value":  11.5,
+                                              "delta_mom":  -0.2,
+                                              "delta_yoy":  4.5,
+                                              "source":  "Mock Pref.",
+                                              "last_update":  "2024-12-31"
+                                          },
+                                          {
+                                              "key":  "alvaras",
+                                              "title":  "Novos Alvarás",
+                                              "value":  42,
+                                              "delta_mom":  2.5,
+                                              "delta_yoy":  8.5,
+                                              "source":  "Mock Pref.",
+                                              "last_update":  "2024-12-31"
+                                          }
+                                      ]
+                      },
+    "kpis_por_bairro":  {
+                            "Centro":  [
+                                           {
+                                               "key":  "empregos",
+                                               "title":  "Empregos Formais",
+                                               "value":  45000,
+                                               "delta_mom":  0.1,
+                                               "delta_yoy":  2.5,
+                                               "source":  "Mock CAGED",
+                                               "last_update":  "2024-12-31"
+                                           },
+                                           {
+                                               "key":  "empresas",
+                                               "title":  "Empresas Ativas",
+                                               "value":  8500,
+                                               "delta_mom":  0.2,
+                                               "delta_yoy":  4.0,
+                                               "source":  "Mock JUCIS",
+                                               "last_update":  "2024-12-31"
+                                           },
+                                           {
+                                               "key":  "iss",
+                                               "title":  "Arrecadação ISS (R$ mi)",
+                                               "value":  18.5,
+                                               "delta_mom":  -1.2,
+                                               "delta_yoy":  5.0,
+                                               "source":  "Mock Pref.",
+                                               "last_update":  "2024-12-31"
+                                           },
+                                           {
+                                               "key":  "alvaras",
+                                               "title":  "Novos Alvarás",
+                                               "value":  52,
+                                               "delta_mom":  2.0,
+                                               "delta_yoy":  7.5,
+                                               "source":  "Mock Pref.",
+                                               "last_update":  "2024-12-31"
+                                           }
+                                       ],
+                            "Cataratas":  [
+                                              {
+                                                  "key":  "empregos",
+                                                  "title":  "Empregos Formais",
+                                                  "value":  18500,
+                                                  "delta_mom":  0.8,
+                                                  "delta_yoy":  4.2,
+                                                  "source":  "Mock CAGED",
+                                                  "last_update":  "2024-12-31"
+                                              },
+                                              {
+                                                  "key":  "empresas",
+                                                  "title":  "Empresas Ativas",
+                                                  "value":  2800,
+                                                  "delta_mom":  0.5,
+                                                  "delta_yoy":  6.0,
+                                                  "source":  "Mock JUCIS",
+                                                  "last_update":  "2024-12-31"
+                                              },
+                                              {
+                                                  "key":  "alvaras",
+                                                  "title":  "Novos Alvarás",
+                                                  "value":  28,
+                                                  "delta_mom":  3.5,
+                                                  "delta_yoy":  12.0,
+                                                  "source":  "Mock Pref.",
+                                                  "last_update":  "2024-12-31"
+                                              }
+                                          ],
+                            "Santa Cruz":  [
+                                               {
+                                                   "key":  "empregos",
+                                                   "title":  "Empregos Formais",
+                                                   "value":  15500,
+                                                   "delta_mom":  0.2,
+                                                   "delta_yoy":  2.8,
+                                                   "source":  "Mock CAGED",
+                                                   "last_update":  "2024-12-31"
+                                               },
+                                               {
+                                                   "key":  "empresas",
+                                                   "title":  "Empresas Ativas",
+                                                   "value":  2100,
+                                                   "delta_mom":  0.3,
+                                                   "delta_yoy":  4.5,
+                                                   "source":  "Mock JUCIS",
+                                                   "last_update":  "2024-12-31"
+                                               },
+                                               {
+                                                   "key":  "alvaras",
+                                                   "title":  "Novos Alvarás",
+                                                   "value":  18,
+                                                   "delta_mom":  1.2,
+                                                   "delta_yoy":  6.0,
+                                                   "source":  "Mock Pref.",
+                                                   "last_update":  "2024-12-31"
+                                               }
+                                           ],
+                            "Alto Alegre":  [
+                                                {
+                                                    "key":  "empregos",
+                                                    "title":  "Empregos Formais",
+                                                    "value":  14500,
+                                                    "delta_mom":  0.3,
+                                                    "delta_yoy":  3.4,
+                                                    "source":  "Mock CAGED",
+                                                    "last_update":  "2024-12-31"
+                                                },
+                                                {
+                                                    "key":  "empresas",
+                                                    "title":  "Empresas Ativas",
+                                                    "value":  2100,
+                                                    "delta_mom":  0.4,
+                                                    "delta_yoy":  5.2,
+                                                    "source":  "Mock JUCIS",
+                                                    "last_update":  "2024-12-31"
+                                                },
+                                                {
+                                                    "key":  "iss",
+                                                    "title":  "Arrecada��o ISS (R$ mi)",
+                                                    "value":  6.4,
+                                                    "delta_mom":  0.1,
+                                                    "delta_yoy":  4.1,
+                                                    "source":  "Mock Pref.",
+                                                    "last_update":  "2024-12-31"
+                                                },
+                                                {
+                                                    "key":  "alvaras",
+                                                    "title":  "Novos Alvar�s",
+                                                    "value":  18,
+                                                    "delta_mom":  1.5,
+                                                    "delta_yoy":  7,
+                                                    "source":  "Mock Pref.",
+                                                    "last_update":  "2024-12-31"
+                                                }
+                                            ],
+                            "Brazmadeira":  [
+                                                {
+                                                    "key":  "empregos",
+                                                    "title":  "Empregos Formais",
+                                                    "value":  9800,
+                                                    "delta_mom":  -0.2,
+                                                    "delta_yoy":  1.9,
+                                                    "source":  "Mock CAGED",
+                                                    "last_update":  "2024-12-31"
+                                                },
+                                                {
+                                                    "key":  "empresas",
+                                                    "title":  "Empresas Ativas",
+                                                    "value":  1350,
+                                                    "delta_mom":  0.1,
+                                                    "delta_yoy":  3.6,
+                                                    "source":  "Mock JUCIS",
+                                                    "last_update":  "2024-12-31"
+                                                },
+                                                {
+                                                    "key":  "iss",
+                                                    "title":  "Arrecada��o ISS (R$ mi)",
+                                                    "value":  4.3,
+                                                    "delta_mom":  -0.4,
+                                                    "delta_yoy":  2.8,
+                                                    "source":  "Mock Pref.",
+                                                    "last_update":  "2024-12-31"
+                                                },
+                                                {
+                                                    "key":  "alvaras",
+                                                    "title":  "Novos Alvar�s",
+                                                    "value":  12,
+                                                    "delta_mom":  0.8,
+                                                    "delta_yoy":  5.5,
+                                                    "source":  "Mock Pref.",
+                                                    "last_update":  "2024-12-31"
+                                                }
+                                            ],
+                            "Pioneiros Catarinenses":  [
+                                                           {
+                                                               "key":  "empregos",
+                                                               "title":  "Empregos Formais",
+                                                               "value":  22000,
+                                                               "delta_mom":  0.3,
+                                                               "delta_yoy":  3.1,
+                                                               "source":  "Mock CAGED",
+                                                               "last_update":  "2024-12-31"
+                                                           },
+                                                           {
+                                                               "key":  "empresas",
+                                                               "title":  "Empresas Ativas",
+                                                               "value":  3200,
+                                                               "delta_mom":  0.4,
+                                                               "delta_yoy":  5.2,
+                                                               "source":  "Mock JUCIS",
+                                                               "last_update":  "2024-12-31"
+                                                           },
+                                                           {
+                                                               "key":  "alvaras",
+                                                               "title":  "Novos Alvarás",
+                                                               "value":  32,
+                                                               "delta_mom":  1.8,
+                                                               "delta_yoy":  8.8,
+                                                               "source":  "Mock Pref.",
+                                                               "last_update":  "2024-12-31"
+                                                           }
+                                                       ]
+                        },
+    "series":  {
+                   "pib":  [
+                               {
+                                   "period":  "2022",
+                                   "value":  17540
+                               },
+                               {
+                                   "period":  "2023",
+                                   "value":  18670
+                               },
+                               {
+                                   "period":  "2024",
+                                   "value":  19250
+                               }
+                           ],
+                   "empregos_mensal":  [
+                                           {
+                                               "period":  "2022-01",
+                                               "value":  120500
+                                           },
+                                           {
+                                               "period":  "2022-02",
+                                               "value":  120700
+                                           },
+                                           {
+                                               "period":  "2022-03",
+                                               "value":  121000
+                                           },
+                                           {
+                                               "period":  "2022-04",
+                                               "value":  121300
+                                           },
+                                           {
+                                               "period":  "2022-05",
+                                               "value":  121600
+                                           },
+                                           {
+                                               "period":  "2022-06",
+                                               "value":  121900
+                                           },
+                                           {
+                                               "period":  "2022-07",
+                                               "value":  122100
+                                           },
+                                           {
+                                               "period":  "2022-08",
+                                               "value":  122400
+                                           },
+                                           {
+                                               "period":  "2022-09",
+                                               "value":  122700
+                                           },
+                                           {
+                                               "period":  "2022-10",
+                                               "value":  123000
+                                           },
+                                           {
+                                               "period":  "2022-11",
+                                               "value":  123300
+                                           },
+                                           {
+                                               "period":  "2022-12",
+                                               "value":  123500
+                                           },
+                                           {
+                                               "period":  "2023-01",
+                                               "value":  123800
+                                           },
+                                           {
+                                               "period":  "2023-02",
+                                               "value":  124100
+                                           },
+                                           {
+                                               "period":  "2023-03",
+                                               "value":  124500
+                                           },
+                                           {
+                                               "period":  "2023-04",
+                                               "value":  124900
+                                           },
+                                           {
+                                               "period":  "2023-05",
+                                               "value":  125300
+                                           },
+                                           {
+                                               "period":  "2023-06",
+                                               "value":  125700
+                                           },
+                                           {
+                                               "period":  "2023-07",
+                                               "value":  126100
+                                           },
+                                           {
+                                               "period":  "2023-08",
+                                               "value":  126500
+                                           },
+                                           {
+                                               "period":  "2023-09",
+                                               "value":  126900
+                                           },
+                                           {
+                                               "period":  "2023-10",
+                                               "value":  127300
+                                           },
+                                           {
+                                               "period":  "2023-11",
+                                               "value":  127700
+                                           },
+                                           {
+                                               "period":  "2023-12",
+                                               "value":  128000
+                                           },
+                                           {
+                                               "period":  "2024-01",
+                                               "value":  128300
+                                           },
+                                           {
+                                               "period":  "2024-02",
+                                               "value":  128600
+                                           },
+                                           {
+                                               "period":  "2024-03",
+                                               "value":  128900
+                                           },
+                                           {
+                                               "period":  "2024-04",
+                                               "value":  129200
+                                           },
+                                           {
+                                               "period":  "2024-05",
+                                               "value":  129500
+                                           },
+                                           {
+                                               "period":  "2024-06",
+                                               "value":  129800
+                                           },
+                                           {
+                                               "period":  "2024-07",
+                                               "value":  130000
+                                           },
+                                           {
+                                               "period":  "2024-08",
+                                               "value":  130200
+                                           },
+                                           {
+                                               "period":  "2024-09",
+                                               "value":  130300
+                                           },
+                                           {
+                                               "period":  "2024-10",
+                                               "value":  130400
+                                           },
+                                           {
+                                               "period":  "2024-11",
+                                               "value":  130500
+                                           },
+                                           {
+                                               "period":  "2024-12",
+                                               "value":  130500
+                                           }
+                                       ],
+                   "admissoes_por_cnae":  [
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Centro",
+                                                  "value":  45
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  35
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Santa Cruz",
+                                                  "value":  70
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  120
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  200
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Centro",
+                                                  "value":  400
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  250
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  200
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  280
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  170
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  320
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  200
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Santa Cruz",
+                                                  "value":  100
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Centro",
+                                                  "value":  40
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  30
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Santa Cruz",
+                                                  "value":  70
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  115
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  195
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Centro",
+                                                  "value":  410
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  260
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  200
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  285
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  175
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  325
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  205
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Santa Cruz",
+                                                  "value":  100
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Centro",
+                                                  "value":  35
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  25
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "01.11-3",
+                                                  "bairro":  "Santa Cruz",
+                                                  "value":  70
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  110
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  190
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Centro",
+                                                  "value":  450
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  280
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  220
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  290
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Cataratas",
+                                                  "value":  180
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Centro",
+                                                  "value":  330
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Pioneiros Catarinenses",
+                                                  "value":  210
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Santa Cruz",
+                                                  "value":  100
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Alto Alegre",
+                                                  "value":  95
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Alto Alegre",
+                                                  "value":  140
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Brazmadeira",
+                                                  "value":  120
+                                              },
+                                              {
+                                                  "period":  "2024-10",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Brazmadeira",
+                                                  "value":  85
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Alto Alegre",
+                                                  "value":  100
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Alto Alegre",
+                                                  "value":  150
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Brazmadeira",
+                                                  "value":  125
+                                              },
+                                              {
+                                                  "period":  "2024-11",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Brazmadeira",
+                                                  "value":  90
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "10.12-1",
+                                                  "bairro":  "Alto Alegre",
+                                                  "value":  105
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "47.89-0",
+                                                  "bairro":  "Alto Alegre",
+                                                  "value":  165
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "62.01-1",
+                                                  "bairro":  "Brazmadeira",
+                                                  "value":  130
+                                              },
+                                              {
+                                                  "period":  "2024-12",
+                                                  "cnae":  "86.10-1",
+                                                  "bairro":  "Brazmadeira",
+                                                  "value":  95
+                                              }
+                                          ]
+               },
+    "alerts":  [
+                   {
+                       "type":  "alta_admissoes",
+                       "message":  "Admissões no CNAE 47.89-0 (Comércio) subiram 9% em Dez/24.",
+                       "severity":  "low",
+                       "cnae":  "47.89-0"
+                   },
+                   {
+                       "type":  "queda_admissoes",
+                       "message":  "Admissões no CNAE 10.12-1 (Indústria) caíram 7% nos últimos 3 meses.",
+                       "severity":  "high",
+                       "cnae":  "10.12-1"
+                   },
+                   {
+                       "type":  "queda_iss",
+                       "message":  "Arrecadação de ISS caiu 1.0% em Dez/24.",
+                       "severity":  "medium"
+                   },
+                   {
+                       "type":  "alta_bairro",
+                       "message":  "Empregos no bairro Centro cresceram 2.5% no último trimestre.",
+                       "severity":  "low",
+                       "bairro":  "Centro"
+                   },
+                   {
+                       "type":  "alta_bairro",
+                       "message":  "Cataratas teve aumento de 12% em novos alvarás.",
+                       "severity":  "medium",
+                       "bairro":  "Cataratas"
+                   },
+                   {
+                       "type":  "queda_bairro",
+                       "message":  "Santa Cruz registrou queda de 5% nas admissões em Nov/24.",
+                       "severity":  "medium",
+                       "bairro":  "Santa Cruz"
+                   }
+               ]
 }

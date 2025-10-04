@@ -53,13 +53,11 @@ class FiltersBar extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  _buildDateField(context: context, label: 'Data inicial', isStart: true),
+                  _buildDateField(
+                      context: context, label: 'Data inicial', isStart: true),
                   const SizedBox(width: 12),
-                  _buildDateField(context: context, label: 'Data final', isStart: false),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildPeriodDropdown(),
-                  ),
+                  _buildDateField(
+                      context: context, label: 'Data final', isStart: false),
                   const SizedBox(width: 16),
                   Expanded(
                     child: _buildCnaeDropdown(),
@@ -106,11 +104,11 @@ class FiltersBar extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildDateField(context: context, label: 'Data inicial', isStart: true),
+            _buildDateField(
+                context: context, label: 'Data inicial', isStart: true),
             const SizedBox(height: 12),
-            _buildDateField(context: context, label: 'Data final', isStart: false),
-            const SizedBox(height: 12),
-            _buildPeriodDropdown(),
+            _buildDateField(
+                context: context, label: 'Data final', isStart: false),
             const SizedBox(height: 12),
             _buildCnaeDropdown(),
             const SizedBox(height: 12),
@@ -121,42 +119,8 @@ class FiltersBar extends StatelessWidget {
     );
   }
 
-  Widget _buildPeriodDropdown() {
-    return DropdownButtonFormField<String>(
-      decoration: const InputDecoration(
-        labelText: 'Período',
-        border: OutlineInputBorder(),
-        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      value: currentFilters.dataInicial != null || currentFilters.dataFinal != null
-          ? null
-          : currentFilters.periodoSelecionado,
-      items: [
-        const DropdownMenuItem<String>(
-          value: null,
-          child: Text('Todos os períodos'),
-        ),
-        ...filterOptions.periodos.map((period) {
-          return DropdownMenuItem<String>(
-            value: period,
-            child: Text(Formatters.formatPeriod(period)),
-          );
-        }),
-      ],
-      onChanged: (currentFilters.dataInicial != null || currentFilters.dataFinal != null)
-          ? null
-          : (value) {
-              onFiltersChanged(
-                currentFilters.copyWith(
-                  periodoSelecionado: value,
-                ),
-              );
-            },
-    );
-  }
-
   Widget _buildCnaeDropdown() {
-    return DropdownButtonFormField<String>(
+    return DropdownButtonFormField<String?>(
       decoration: const InputDecoration(
         labelText: 'CNAE',
         border: OutlineInputBorder(),
@@ -164,12 +128,12 @@ class FiltersBar extends StatelessWidget {
       ),
       value: currentFilters.cnaeSelecionado,
       items: [
-        const DropdownMenuItem<String>(
+        const DropdownMenuItem<String?>(
           value: null,
           child: Text('Todos os CNAEs'),
         ),
         ...filterOptions.cnae.map((cnae) {
-          return DropdownMenuItem<String>(
+          return DropdownMenuItem<String?>(
             value: cnae,
             child: Text(Formatters.formatCnae(cnae)),
           );
@@ -182,7 +146,7 @@ class FiltersBar extends StatelessWidget {
   }
 
   Widget _buildBairroDropdown() {
-    return DropdownButtonFormField<String>(
+    return DropdownButtonFormField<String?>(
       decoration: const InputDecoration(
         labelText: 'Bairro',
         border: OutlineInputBorder(),
@@ -190,12 +154,12 @@ class FiltersBar extends StatelessWidget {
       ),
       value: currentFilters.bairroSelecionado,
       items: [
-        const DropdownMenuItem<String>(
+        const DropdownMenuItem<String?>(
           value: null,
           child: Text('Todos os bairros'),
         ),
         ...filterOptions.bairros.map((bairro) {
-          return DropdownMenuItem<String>(
+          return DropdownMenuItem<String?>(
             value: bairro,
             child: Text(bairro),
           );
@@ -208,8 +172,7 @@ class FiltersBar extends StatelessWidget {
   }
 
   Widget _buildClearFiltersButton() {
-    final hasFilters = currentFilters.periodoSelecionado != null ||
-        currentFilters.cnaeSelecionado != null ||
+    final hasFilters = currentFilters.cnaeSelecionado != null ||
         currentFilters.bairroSelecionado != null ||
         currentFilters.dataInicial != null ||
         currentFilters.dataFinal != null;
@@ -225,35 +188,50 @@ class FiltersBar extends StatelessWidget {
     );
   }
 
-  Widget _buildDateField({required BuildContext context, required String label, required bool isStart}) {
-    final DateTime? value = isStart ? currentFilters.dataInicial : currentFilters.dataFinal;
+  Widget _buildDateField(
+      {required BuildContext context,
+      required String label,
+      required bool isStart}) {
+    final DateTime? value =
+        isStart ? currentFilters.dataInicial : currentFilters.dataFinal;
 
     return SizedBox(
       width: 190,
       child: InkWell(
         onTap: () async {
-          final initialDate = value ?? DateTime.now();
+          final initialDate =
+              value ?? currentFilters.dataInicial ?? DateTime.now();
           final picked = await showDatePicker(
             context: context,
             initialDate: initialDate,
             firstDate: DateTime(2000),
             lastDate: DateTime.now().add(const Duration(days: 365)),
             helpText: label,
+            locale: const Locale('pt', 'BR'),
           );
 
           if (picked != null) {
             if (isStart) {
+              DateTime? adjustedEnd = currentFilters.dataFinal;
+              if (adjustedEnd != null && adjustedEnd.isBefore(picked)) {
+                adjustedEnd = picked;
+              }
               onFiltersChanged(
                 currentFilters.copyWith(
                   dataInicial: picked,
-                  // limpar período selecionado ao usar datas
+                  dataFinal: adjustedEnd,
                   periodoSelecionado: null,
                 ),
               );
             } else {
+              DateTime? adjustedStart = currentFilters.dataInicial;
+              if (adjustedStart != null && picked.isBefore(adjustedStart)) {
+                adjustedStart = picked;
+              }
               onFiltersChanged(
                 currentFilters.copyWith(
                   dataFinal: picked,
+                  dataInicial: adjustedStart,
                   periodoSelecionado: null,
                 ),
               );
@@ -264,7 +242,8 @@ class FiltersBar extends StatelessWidget {
           decoration: InputDecoration(
             labelText: label,
             border: const OutlineInputBorder(),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             suffixIcon: const Icon(Icons.date_range_outlined, size: 18),
           ),
           child: Text(

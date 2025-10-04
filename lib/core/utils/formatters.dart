@@ -38,7 +38,11 @@ class Formatters {
 
   /// Formatar percentual com símbolo
   static String formatPercentWithSymbol(double value) {
-    String symbol = value > 0 ? '↗' : value < 0 ? '↘' : '→';
+    String symbol = value > 0
+        ? '↗'
+        : value < 0
+            ? '↘'
+            : '→';
     return '$symbol ${formatPercent(value)}';
   }
 
@@ -73,8 +77,19 @@ class Formatters {
       final year = parts[0];
       final month = int.parse(parts[1]);
       final monthNames = [
-        '', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-        'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+        '',
+        'Jan',
+        'Fev',
+        'Mar',
+        'Abr',
+        'Mai',
+        'Jun',
+        'Jul',
+        'Ago',
+        'Set',
+        'Out',
+        'Nov',
+        'Dez'
       ];
       return '${monthNames[month]}/$year';
     }
@@ -86,11 +101,12 @@ class Formatters {
     // Mapear códigos CNAE para descrições amigáveis
     const cnaeDescriptions = {
       '01.11-3': 'Cultivo de cereais',
+      '10.12-1': 'Indústria de alimentos',
       '47.89-0': 'Comércio varejista',
       '62.01-1': 'Desenvolvimento de software',
       '86.10-1': 'Atividades hospitalares',
     };
-    
+
     return cnaeDescriptions[cnae] ?? cnae;
   }
 

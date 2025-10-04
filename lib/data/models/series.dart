@@ -41,16 +41,22 @@ class TimePoint {
 class CnaeData {
   final String cnae;
   final double valor;
+  final String? bairro;
+  final String? periodo;
 
   const CnaeData({
     required this.cnae,
     required this.valor,
+    this.bairro,
+    this.periodo,
   });
 
   factory CnaeData.fromJson(Map<String, dynamic> json) {
     return CnaeData(
       cnae: json['cnae'] as String,
       valor: (json['value'] as num).toDouble(),
+      bairro: json['bairro'] as String?,
+      periodo: json['period'] as String?,
     );
   }
 
@@ -58,22 +64,28 @@ class CnaeData {
     return {
       'cnae': cnae,
       'value': valor,
+      if (bairro != null) 'bairro': bairro,
+      if (periodo != null) 'period': periodo,
     };
   }
 
   @override
   String toString() {
-    return 'CnaeData(cnae: $cnae, valor: $valor)';
+    return 'CnaeData(cnae: $cnae, valor: $valor, bairro: $bairro, periodo: $periodo)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is CnaeData && other.cnae == cnae && other.valor == valor;
+    return other is CnaeData &&
+        other.cnae == cnae &&
+        other.valor == valor &&
+        other.bairro == bairro &&
+        other.periodo == periodo;
   }
 
   @override
-  int get hashCode => Object.hash(cnae, valor);
+  int get hashCode => Object.hash(cnae, valor, bairro, periodo);
 }
 
 class SeriesData {

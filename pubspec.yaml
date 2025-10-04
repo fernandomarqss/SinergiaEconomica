@@ -9,9 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   cupertino_icons: ^1.0.2
   fl_chart: ^0.64.0
-  intl: ^0.18.1
+  intl: ^0.19.0
   flutter_riverpod: ^2.4.9
 
 dev_dependencies:
@@ -23,3 +25,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/mock_data.json
+    - assets/bairros_lista.json
