@@ -183,7 +183,7 @@ class ExportService {
 
     buffer.writeln('''
     <div class="footer">
-        <p>MVP • Dados mockados • v0.1</p>
+        <p>v0.1</p>
         <p>Cascavel em Números - Inteligência Econômica</p>
     </div>
 </body>

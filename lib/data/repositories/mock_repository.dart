@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+
 import '../models/kpi.dart';
 import '../models/series.dart';
 import '../models/alert.dart';
@@ -10,7 +11,7 @@ class MockRepository {
 
   Map<String, dynamic>? _cachedData;
 
-  /// Carrega os dados mockados do arquivo JSON
+  // Carrega os dados mockados do arquivo JSON
   Future<Map<String, dynamic>> _loadMockData() async {
     if (_cachedData != null) {
       return _cachedData!;
@@ -25,14 +26,31 @@ class MockRepository {
     }
   }
 
-  /// Obtém as opções de filtros disponíveis
+  // Opções disponíveis para filtros
   Future<FilterOptions> obterOpcoesFiltros() async {
     final data = await _loadMockData();
     final filtersData = data['filters'] as Map<String, dynamic>;
-    return FilterOptions.fromJson(filtersData);
+    var options = FilterOptions.fromJson(filtersData);
+
+    // Tentativa opcional: carregar lista completa de bairros de um asset dedicado
+    try {
+      final raw = await rootBundle.loadString('assets/bairros_lista.json');
+      final list = (json.decode(raw) as List<dynamic>).cast<String>();
+      if (list.isNotEmpty) {
+        options = FilterOptions(
+          periodos: options.periodos,
+          cnae: options.cnae,
+          bairros: list,
+        );
+      }
+    } catch (_) {
+      // Ignora se o arquivo não existir ou estiver inválido
+    }
+
+    return options;
   }
 
-  /// Obtém todos os KPIs
+  // KPIs
   Future<List<Kpi>> obterKpis() async {
     final data = await _loadMockData();
     final kpisData = data['kpis'] as List<dynamic>;
@@ -41,24 +59,22 @@ class MockRepository {
         .toList();
   }
 
-  /// Obtém um KPI específico por chave
   Future<Kpi?> obterKpiPorChave(String chave) async {
     final kpis = await obterKpis();
     try {
       return kpis.firstWhere((kpi) => kpi.chave == chave);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
 
-  /// Obtém todas as séries temporais
+  // Séries temporais
   Future<SeriesData> obterSeries() async {
     final data = await _loadMockData();
     final seriesData = data['series'] as Map<String, dynamic>;
     return SeriesData.fromJson(seriesData);
   }
 
-  /// Obtém série temporal específica por tipo
   Future<List<TimePoint>> obterSerieTemporalPorTipo(String tipo) async {
     final series = await obterSeries();
     switch (tipo.toLowerCase()) {
@@ -72,13 +88,13 @@ class MockRepository {
     }
   }
 
-  /// Obtém dados por CNAE
+  // CNAE
   Future<List<CnaeData>> obterDadosCnae() async {
     final series = await obterSeries();
     return series.admissoesPorCnae;
   }
 
-  /// Obtém todos os alertas
+  // Alertas
   Future<List<Alert>> obterAlertas() async {
     final data = await _loadMockData();
     final alertsData = data['alerts'] as List<dynamic>;
@@ -87,64 +103,142 @@ class MockRepository {
         .toList();
   }
 
-  /// Obtém alertas filtrados por severidade
   Future<List<Alert>> obterAlertasPorSeveridade(String severidade) async {
     final alerts = await obterAlertas();
     return alerts.where((alert) => alert.severidade == severidade).toList();
   }
 
-  /// Simula busca de dados com filtros aplicados
-  /// No MVP, retorna os mesmos dados independente dos filtros
+  // Com filtros
   Future<List<Kpi>> obterKpisComFiltros(AppFilters filtros) async {
-    // TODO: Implementar lógica de filtros quando conectar com APIs reais
-    // Por enquanto, retorna todos os KPIs
-    return obterKpis();
+    // Sem fonte real, mantemos KPIs como estão.
+    final all = await obterKpis();
+    return all;
   }
 
-  /// Simula busca de séries com filtros aplicados
   Future<SeriesData> obterSeriesComFiltros(AppFilters filtros) async {
-    // TODO: Implementar lógica de filtros quando conectar com APIs reais
-    // Por enquanto, retorna todas as séries
-    return obterSeries();
+    final base = await obterSeries();
+
+    DateTime? inicio = filtros.dataInicial;
+    DateTime? fim = filtros.dataFinal;
+
+    // Se houver um período yyyy-MM selecionado, converte para intervalo mensal
+    if (filtros.periodoSelecionado != null &&
+        filtros.periodoSelecionado!.contains('-') &&
+        filtros.periodoSelecionado!.length == 7) {
+      final period = filtros.periodoSelecionado!; // yyyy-MM
+      final parts = period.split('-');
+      final year = int.tryParse(parts[0]);
+      final month = int.tryParse(parts[1]);
+      if (year != null && month != null) {
+        inicio = DateTime(year, month, 1);
+        fim = DateTime(year, month + 1, 0);
+      }
+    }
+
+    List<TimePoint> filtrarSerieMensal(List<TimePoint> serie) {
+      if (inicio == null && fim == null) return serie;
+      return serie.where((p) {
+        final d = _parsePeriodoMensal(p.periodo);
+        if (d == null) return true;
+        final afterStart = (inicio == null)
+            ? true
+            : !d.isBefore(DateTime(inicio!.year, inicio!.month, inicio!.day));
+        final beforeEnd = (fim == null)
+            ? true
+            : !d.isAfter(DateTime(fim!.year, fim!.month, fim!.day));
+        return afterStart && beforeEnd;
+      }).toList();
+    }
+
+    List<TimePoint> filtrarSerieAnual(List<TimePoint> serie) {
+      if (inicio == null && fim == null) return serie;
+      return serie.where((p) {
+        final d = _parsePeriodoAnual(p.periodo);
+        if (d == null) return true;
+        final afterStart =
+            (inicio == null) ? true : !d.isBefore(DateTime(inicio!.year, 1, 1));
+        final beforeEnd =
+            (fim == null) ? true : !d.isAfter(DateTime(fim!.year, 12, 31));
+        return afterStart && beforeEnd;
+      }).toList();
+    }
+
+    final empregosFiltrado = filtrarSerieMensal(base.empregosMensal);
+    final pibFiltrado = filtrarSerieAnual(base.pib);
+
+    final cnaeFiltrado = (filtros.cnaeSelecionado == null)
+        ? base.admissoesPorCnae
+        : base.admissoesPorCnae
+            .where((e) => e.cnae == filtros.cnaeSelecionado)
+            .toList();
+
+    return SeriesData(
+      pib: pibFiltrado,
+      empregosMensal: empregosFiltrado,
+      admissoesPorCnae: cnaeFiltrado,
+    );
   }
 
-  /// Simula busca de alertas com filtros aplicados
   Future<List<Alert>> obterAlertasComFiltros(AppFilters filtros) async {
-    // TODO: Implementar lógica de filtros quando conectar com APIs reais
-    // Por enquanto, retorna todos os alertas
+    // Sem metadados de data/bairro nos alertas mockados, retornamos todos
     return obterAlertas();
   }
 
-  /// Limpa cache de dados (útil para testes ou reload)
   void limparCache() {
     _cachedData = null;
   }
 
-  /// Simula delay de rede para testes
   Future<void> simularDelayRede([int milissegundos = 500]) async {
     await Future.delayed(Duration(milliseconds: milissegundos));
   }
 
-  /// Obtém dados completos do dashboard
+  // Agregador
   Future<DashboardData> obterDadosDashboard({AppFilters? filtros}) async {
-    await simularDelayRede(300); // Simula carregamento
+    await simularDelayRede(300);
 
     final filterOptions = await obterOpcoesFiltros();
-    final kpis = await obterKpis();
-    final series = await obterSeries();
-    final alerts = await obterAlertas();
+    final applied = filtros ?? const AppFilters();
+    final kpis = await obterKpisComFiltros(applied);
+    final series = await obterSeriesComFiltros(applied);
+    final alerts = await obterAlertasComFiltros(applied);
 
     return DashboardData(
       filterOptions: filterOptions,
       kpis: kpis,
       series: series,
       alerts: alerts,
-      appliedFilters: filtros ?? const AppFilters(),
+      appliedFilters: applied,
     );
+  }
+
+  // Helpers
+  DateTime? _parsePeriodoMensal(String period) {
+    try {
+      if (period.length == 7 && period.contains('-')) {
+        final parts = period.split('-');
+        final y = int.parse(parts[0]);
+        final m = int.parse(parts[1]);
+        return DateTime(y, m, 1);
+      }
+      if (period.length == 10 && period.contains('-')) {
+        return DateTime.parse(period);
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  DateTime? _parsePeriodoAnual(String period) {
+    try {
+      if (period.length == 4) {
+        final y = int.parse(period);
+        return DateTime(y, 1, 1);
+      }
+    } catch (_) {}
+    return null;
   }
 }
 
-/// Classe que encapsula todos os dados do dashboard
+// DTO agregado do dashboard
 class DashboardData {
   final FilterOptions filterOptions;
   final List<Kpi> kpis;

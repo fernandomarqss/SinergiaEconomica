@@ -22,16 +22,16 @@ class FiltersBar extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth > 768) {
-            return _buildDesktopFilters();
+            return _buildDesktopFilters(context);
           } else {
-            return _buildMobileFilters();
+            return _buildMobileFilters(context);
           }
         },
       ),
     );
   }
 
-  Widget _buildDesktopFilters() {
+  Widget _buildDesktopFilters(BuildContext context) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -53,6 +53,10 @@ class FiltersBar extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
+                  _buildDateField(context: context, label: 'Data inicial', isStart: true),
+                  const SizedBox(width: 12),
+                  _buildDateField(context: context, label: 'Data final', isStart: false),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: _buildPeriodDropdown(),
                   ),
@@ -75,7 +79,7 @@ class FiltersBar extends StatelessWidget {
     );
   }
 
-  Widget _buildMobileFilters() {
+  Widget _buildMobileFilters(BuildContext context) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -102,6 +106,10 @@ class FiltersBar extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
+            _buildDateField(context: context, label: 'Data inicial', isStart: true),
+            const SizedBox(height: 12),
+            _buildDateField(context: context, label: 'Data final', isStart: false),
+            const SizedBox(height: 12),
             _buildPeriodDropdown(),
             const SizedBox(height: 12),
             _buildCnaeDropdown(),
@@ -120,7 +128,9 @@ class FiltersBar extends StatelessWidget {
         border: OutlineInputBorder(),
         contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
-      value: currentFilters.periodoSelecionado,
+      value: currentFilters.dataInicial != null || currentFilters.dataFinal != null
+          ? null
+          : currentFilters.periodoSelecionado,
       items: [
         const DropdownMenuItem<String>(
           value: null,
@@ -133,9 +143,15 @@ class FiltersBar extends StatelessWidget {
           );
         }),
       ],
-      onChanged: (value) {
-        onFiltersChanged(currentFilters.copyWith(periodoSelecionado: value));
-      },
+      onChanged: (currentFilters.dataInicial != null || currentFilters.dataFinal != null)
+          ? null
+          : (value) {
+              onFiltersChanged(
+                currentFilters.copyWith(
+                  periodoSelecionado: value,
+                ),
+              );
+            },
     );
   }
 
@@ -194,7 +210,9 @@ class FiltersBar extends StatelessWidget {
   Widget _buildClearFiltersButton() {
     final hasFilters = currentFilters.periodoSelecionado != null ||
         currentFilters.cnaeSelecionado != null ||
-        currentFilters.bairroSelecionado != null;
+        currentFilters.bairroSelecionado != null ||
+        currentFilters.dataInicial != null ||
+        currentFilters.dataFinal != null;
 
     return TextButton.icon(
       onPressed: hasFilters ? () => onFiltersChanged(const AppFilters()) : null,
@@ -203,6 +221,60 @@ class FiltersBar extends StatelessWidget {
       style: TextButton.styleFrom(
         foregroundColor:
             hasFilters ? AppTheme.heraldicBlue : AppTheme.neutral400,
+      ),
+    );
+  }
+
+  Widget _buildDateField({required BuildContext context, required String label, required bool isStart}) {
+    final DateTime? value = isStart ? currentFilters.dataInicial : currentFilters.dataFinal;
+
+    return SizedBox(
+      width: 190,
+      child: InkWell(
+        onTap: () async {
+          final initialDate = value ?? DateTime.now();
+          final picked = await showDatePicker(
+            context: context,
+            initialDate: initialDate,
+            firstDate: DateTime(2000),
+            lastDate: DateTime.now().add(const Duration(days: 365)),
+            helpText: label,
+          );
+
+          if (picked != null) {
+            if (isStart) {
+              onFiltersChanged(
+                currentFilters.copyWith(
+                  dataInicial: picked,
+                  // limpar período selecionado ao usar datas
+                  periodoSelecionado: null,
+                ),
+              );
+            } else {
+              onFiltersChanged(
+                currentFilters.copyWith(
+                  dataFinal: picked,
+                  periodoSelecionado: null,
+                ),
+              );
+            }
+          }
+        },
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: label,
+            border: const OutlineInputBorder(),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            suffixIcon: const Icon(Icons.date_range_outlined, size: 18),
+          ),
+          child: Text(
+            value != null ? Formatters.formatDate(value) : 'DD/MM/AAAA',
+            style: TextStyle(
+              color: value != null ? AppTheme.neutral900 : AppTheme.neutral400,
+              fontSize: 14,
+            ),
+          ),
+        ),
       ),
     );
   }

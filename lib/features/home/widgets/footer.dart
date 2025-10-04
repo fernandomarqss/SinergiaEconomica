@@ -70,42 +70,42 @@ class Footer extends StatelessWidget {
           ),
         ),
 
-        // Status e versão
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 8,
-                  height: 8,
-                  decoration: const BoxDecoration(
-                    color: AppTheme.crownGold,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Text(
-                  'MVP • Dados mockados',
-                  style: TextStyle(
-                    color: AppTheme.crownGold,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'v0.1.0 • ${DateTime.now().year}',
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.5),
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
+        // // Status e versão
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.end,
+        //   children: [
+        //     Row(
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Container(
+        //           width: 8,
+        //           height: 8,
+        //           decoration: const BoxDecoration(
+        //             color: AppTheme.crownGold,
+        //             shape: BoxShape.circle,
+        //           ),
+        //         ),
+        //         const SizedBox(width: 8),
+        //         // const Text(
+        //         //   'MVP • Dados mockados',
+        //         //   style: TextStyle(
+        //         //     color: AppTheme.crownGold,
+        //         //     fontSize: 12,
+        //         //     fontWeight: FontWeight.w500,
+        //         //   ),
+        //         // ),
+        //       ],
+        //     ),
+        //     const SizedBox(height: 4),
+        //     Text(
+        //       'v0.1.0 • ${DateTime.now().year}',
+        //       style: TextStyle(
+        //         color: Colors.white.withOpacity(0.5),
+        //         fontSize: 12,
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }
@@ -157,41 +157,41 @@ class Footer extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // Status e versão
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 6,
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: AppTheme.crownGold,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 6),
-                const Text(
-                  'MVP • Dados mockados',
-                  style: TextStyle(
-                    color: AppTheme.crownGold,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            Text(
-              'v0.1.0 • ${DateTime.now().year}',
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.5),
-                fontSize: 10,
-              ),
-            ),
-          ],
-        ),
+        // // Status e versão
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Row(
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Container(
+        //           width: 6,
+        //           height: 6,
+        //           decoration: const BoxDecoration(
+        //             color: AppTheme.crownGold,
+        //             shape: BoxShape.circle,
+        //           ),
+        //         ),
+        //         const SizedBox(width: 6),
+        //         // const Text(
+        //         //   'MVP • Dados mockados',
+        //         //   style: TextStyle(
+        //         //     color: AppTheme.crownGold,
+        //         //     fontSize: 10,
+        //         //     fontWeight: FontWeight.w500,
+        //         //   ),
+        //         // ),
+        //       ],
+        //     ),
+        //     Text(
+        //       'v0.1.0 • ${DateTime.now().year}',
+        //       style: TextStyle(
+        //         color: Colors.white.withOpacity(0.5),
+        //         fontSize: 10,
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }
@@ -213,43 +213,7 @@ class SimpleFooter extends StatelessWidget {
               thickness: 1,
             ),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 6,
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: AppTheme.crownGold,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Text(
-                  'MVP',
-                  style: TextStyle(
-                    color: AppTheme.crownGold,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const Text(
-                  ' • Dados mockados • ',
-                  style: TextStyle(
-                    color: AppTheme.neutral400,
-                    fontSize: 12,
-                  ),
-                ),
-                const Text(
-                  'v0.1',
-                  style: TextStyle(
-                    color: AppTheme.neutral400,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
+            const SizedBox.shrink(),
           ],
         ),
       ),
@@ -303,36 +267,7 @@ class DetailedFooter extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          color: AppTheme.crownGold,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      const Text(
-                        'Versão MVP',
-                        style: TextStyle(
-                          color: AppTheme.crownGold,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Dados simulados para demonstração',
-                    style: TextStyle(
-                      color: AppTheme.neutral400,
-                      fontSize: 10,
-                    ),
-                  ),
+                  const SizedBox.shrink(),
                 ],
               ),
             ],
