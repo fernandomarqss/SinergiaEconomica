@@ -235,11 +235,11 @@ class DetailedFooter extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppTheme.neutral400.withOpacity(0.2)),
       ),
-      child: Column(
+      child: const Column(
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -263,11 +263,11 @@ class DetailedFooter extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 24),
+              SizedBox(width: 24),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const SizedBox.shrink(),
+                  SizedBox.shrink(),
                 ],
               ),
             ],
