@@ -157,13 +157,13 @@ class ChartsSection extends StatelessWidget {
           verticalInterval: 1,
           getDrawingHorizontalLine: (value) {
             return FlLine(
-              color: AppTheme.neutral400.withOpacity(0.3),
+              color: AppTheme.neutral400.withValues(alpha: 0.3),
               strokeWidth: 1,
             );
           },
           getDrawingVerticalLine: (value) {
             return FlLine(
-              color: AppTheme.neutral400.withOpacity(0.3),
+              color: AppTheme.neutral400.withValues(alpha: 0.3),
               strokeWidth: 1,
             );
           },
@@ -221,7 +221,7 @@ class ChartsSection extends StatelessWidget {
         ),
         borderData: FlBorderData(
           show: true,
-          border: Border.all(color: AppTheme.neutral400.withOpacity(0.3)),
+          border: Border.all(color: AppTheme.neutral400.withValues(alpha: 0.3)),
         ),
         minX: 0,
         maxX: (seriesData!.pib.length - 1).toDouble(),
@@ -234,7 +234,7 @@ class ChartsSection extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 AppTheme.heraldicBlue,
-                AppTheme.heraldicBlue.withOpacity(0.8),
+                AppTheme.heraldicBlue.withValues(alpha: 0.8),
               ],
             ),
             barWidth: 3,
@@ -254,8 +254,8 @@ class ChartsSection extends StatelessWidget {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppTheme.heraldicBlue.withOpacity(0.2),
-                  AppTheme.heraldicBlue.withOpacity(0.05),
+                  AppTheme.heraldicBlue.withValues(alpha: 0.2),
+                  AppTheme.heraldicBlue.withValues(alpha: 0.05),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -266,7 +266,7 @@ class ChartsSection extends StatelessWidget {
         lineTouchData: LineTouchData(
           enabled: true,
           touchTooltipData: LineTouchTooltipData(
-            tooltipBgColor: AppTheme.neutral900.withOpacity(0.9),
+            tooltipBgColor: AppTheme.neutral900.withValues(alpha: 0.9),
             tooltipRoundedRadius: 8,
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) {
@@ -306,7 +306,7 @@ class ChartsSection extends StatelessWidget {
         barTouchData: BarTouchData(
           enabled: true,
           touchTooltipData: BarTouchTooltipData(
-            tooltipBgColor: AppTheme.neutral900.withOpacity(0.9),
+            tooltipBgColor: AppTheme.neutral900.withValues(alpha: 0.9),
             tooltipRoundedRadius: 8,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               final cnaeData = seriesData!.admissoesPorCnae[groupIndex];
@@ -374,7 +374,7 @@ class ChartsSection extends StatelessWidget {
         ),
         borderData: FlBorderData(
           show: true,
-          border: Border.all(color: AppTheme.neutral400.withOpacity(0.3)),
+          border: Border.all(color: AppTheme.neutral400.withValues(alpha: 0.3)),
         ),
         barGroups: seriesData!.admissoesPorCnae.asMap().entries.map((entry) {
           return BarChartGroupData(
@@ -385,7 +385,7 @@ class ChartsSection extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppTheme.cascavelGreen,
-                    AppTheme.cascavelGreen.withOpacity(0.8),
+                    AppTheme.cascavelGreen.withValues(alpha: 0.8),
                   ],
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
@@ -405,7 +405,7 @@ class ChartsSection extends StatelessWidget {
           horizontalInterval: maxY / 4,
           getDrawingHorizontalLine: (value) {
             return FlLine(
-              color: AppTheme.neutral400.withOpacity(0.3),
+              color: AppTheme.neutral400.withValues(alpha: 0.3),
               strokeWidth: 1,
             );
           },
@@ -417,7 +417,7 @@ class ChartsSection extends StatelessWidget {
   Widget _buildChartSkeleton() {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.neutral400.withOpacity(0.1),
+        color: AppTheme.neutral400.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: const Center(
@@ -433,7 +433,7 @@ class ChartsSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.neutral100,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppTheme.neutral400.withOpacity(0.3)),
+        border: Border.all(color: AppTheme.neutral400.withValues(alpha: 0.3)),
       ),
       child: Center(
         child: Column(

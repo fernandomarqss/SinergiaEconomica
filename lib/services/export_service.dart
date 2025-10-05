@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 
 import '../core/utils/formatters.dart';
 import '../data/models/alert.dart';
@@ -432,13 +432,15 @@ class ExportService {
     String tipoMime,
   ) {
     final bytes = utf8.encode(conteudo);
-    final blob = html.Blob([bytes], tipoMime);
-    final url = html.Url.createObjectUrlFromBlob(blob);
+    final base64Data = base64Encode(bytes);
+    final href = 'data:$tipoMime;charset=utf-8;base64,$base64Data';
 
-    html.AnchorElement(href: url)
-      ..setAttribute('download', nomeArquivo)
-      ..click();
+    final anchor = web.HTMLAnchorElement()
+      ..href = href
+      ..download = nomeArquivo;
 
-    html.Url.revokeObjectUrl(url);
+    web.document.body?.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
   }
 }

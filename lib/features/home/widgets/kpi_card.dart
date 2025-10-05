@@ -114,9 +114,9 @@ class KpiCard extends StatelessWidget {
         vertical: isCompact ? 4 : 6,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -173,7 +173,7 @@ class KpiCardSkeleton extends StatelessWidget {
               height: isCompact ? 16 : 20,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppTheme.neutral400.withOpacity(0.3),
+                color: AppTheme.neutral400.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -184,7 +184,7 @@ class KpiCardSkeleton extends StatelessWidget {
               height: isCompact ? 20 : 24,
               width: 120,
               decoration: BoxDecoration(
-                color: AppTheme.neutral400.withOpacity(0.3),
+                color: AppTheme.neutral400.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -197,7 +197,7 @@ class KpiCardSkeleton extends StatelessWidget {
                   child: Container(
                     height: isCompact ? 24 : 28,
                     decoration: BoxDecoration(
-                      color: AppTheme.neutral400.withOpacity(0.3),
+                      color: AppTheme.neutral400.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
@@ -207,7 +207,7 @@ class KpiCardSkeleton extends StatelessWidget {
                   child: Container(
                     height: isCompact ? 24 : 28,
                     decoration: BoxDecoration(
-                      color: AppTheme.neutral400.withOpacity(0.3),
+                      color: AppTheme.neutral400.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
@@ -221,7 +221,7 @@ class KpiCardSkeleton extends StatelessWidget {
                 height: 12,
                 width: 100,
                 decoration: BoxDecoration(
-                  color: AppTheme.neutral400.withOpacity(0.3),
+                  color: AppTheme.neutral400.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -230,7 +230,7 @@ class KpiCardSkeleton extends StatelessWidget {
                 height: 12,
                 width: 80,
                 decoration: BoxDecoration(
-                  color: AppTheme.neutral400.withOpacity(0.3),
+                  color: AppTheme.neutral400.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),

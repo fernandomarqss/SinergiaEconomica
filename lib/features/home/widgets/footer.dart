@@ -60,7 +60,7 @@ class Footer extends StatelessWidget {
                   Text(
                     'Inteligência Econômica Municipal',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withValues(alpha: 0.7),
                       fontSize: 14,
                     ),
                   ),
@@ -100,7 +100,7 @@ class Footer extends StatelessWidget {
         //     Text(
         //       'v0.1.0 • ${DateTime.now().year}',
         //       style: TextStyle(
-        //         color: Colors.white.withOpacity(0.5),
+        //         color: Colors.white.withValues(alpha: 0.5),
         //         fontSize: 12,
         //       ),
         //     ),
@@ -145,7 +145,7 @@ class Footer extends StatelessWidget {
                   Text(
                     'Inteligência Econômica Municipal',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withValues(alpha: 0.7),
                       fontSize: 12,
                     ),
                   ),
@@ -186,7 +186,7 @@ class Footer extends StatelessWidget {
         //     Text(
         //       'v0.1.0 • ${DateTime.now().year}',
         //       style: TextStyle(
-        //         color: Colors.white.withOpacity(0.5),
+        //         color: Colors.white.withValues(alpha: 0.5),
         //         fontSize: 10,
         //       ),
         //     ),
@@ -209,7 +209,7 @@ class SimpleFooter extends StatelessWidget {
         child: Column(
           children: [
             Divider(
-              color: AppTheme.neutral400.withOpacity(0.3),
+              color: AppTheme.neutral400.withValues(alpha: 0.3),
               thickness: 1,
             ),
             const SizedBox(height: 16),
@@ -233,7 +233,7 @@ class DetailedFooter extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.neutral400.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.neutral400.withValues(alpha: 0.2)),
       ),
       child: const Column(
         children: [

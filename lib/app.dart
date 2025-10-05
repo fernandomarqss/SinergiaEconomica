@@ -25,11 +25,14 @@ class CascavelApp extends StatelessWidget {
         ],
         home: const HomePage(),
         builder: (context, child) {
+          final mediaQuery = MediaQuery.of(context);
           return MediaQuery(
             // Garantir que o texto não seja menor que 14px para acessibilidade
-            data: MediaQuery.of(context).copyWith(
-              textScaler: TextScaler.linear(
-                  MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2)),
+            data: mediaQuery.copyWith(
+              textScaler: mediaQuery.textScaler.clamp(
+                minScaleFactor: 0.8,
+                maxScaleFactor: 1.2,
+              ),
             ),
             child: child!,
           );

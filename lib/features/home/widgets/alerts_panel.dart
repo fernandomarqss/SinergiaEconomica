@@ -112,7 +112,7 @@ class AlertsPanel extends StatelessWidget {
               width: 12,
               height: 12,
               decoration: BoxDecoration(
-                color: AppTheme.neutral400.withOpacity(0.3),
+                color: AppTheme.neutral400.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
             ),
@@ -125,7 +125,7 @@ class AlertsPanel extends StatelessWidget {
                     height: 16,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppTheme.neutral400.withOpacity(0.3),
+                      color: AppTheme.neutral400.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -134,7 +134,7 @@ class AlertsPanel extends StatelessWidget {
                     height: 12,
                     width: 100,
                     decoration: BoxDecoration(
-                      color: AppTheme.neutral400.withOpacity(0.3),
+                      color: AppTheme.neutral400.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -245,7 +245,7 @@ class AlertsPanel extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: severityColor.withOpacity(0.3),
+            color: severityColor.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -258,7 +258,7 @@ class AlertsPanel extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: severityColor.withOpacity(0.1),
+                  color: severityColor.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -302,10 +302,10 @@ class AlertsPanel extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: severityColor.withOpacity(0.1),
+                  color: severityColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: severityColor.withOpacity(0.3),
+                    color: severityColor.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Text(
